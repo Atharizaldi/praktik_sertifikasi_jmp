@@ -11,25 +11,25 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 100, bottom: 50),
+          const Padding(
+            padding: EdgeInsets.only(top: 100, bottom: 50),
             child: Image(
               image: NetworkImage(
                   "https://www.kpu.go.id/images/1627539868logo-kpu.png"),
               height: 100,
             ),
           ),
-          MenuItem(
+          const MenuItem(
             name: "informasi",
             icon: Icon(Icons.info),
-            page: "/form_entry",
+            page: "/info",
           ),
-          MenuItem(
+          const MenuItem(
             name: "Form Entry",
             icon: Icon(Icons.assignment_add),
             page: "/form_entry",
           ),
-          MenuItem(
+          const MenuItem(
             name: "Lihat Data",
             icon: Icon(Icons.assignment),
             page: "/show_data",
@@ -41,8 +41,8 @@ class HomePage extends StatelessWidget {
               height: 50,
               child: ElevatedButton.icon(
                 icon: Icon(Icons.logout),
-                label:
-                    Align(alignment: Alignment.center, child: Text("Keluar")),
+                label: const Align(
+                    alignment: Alignment.center, child: Text("Keluar")),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:praktik_mochammad_athar_rizaldi/pages/entry_data.dart';
+import 'package:praktik_mochammad_athar_rizaldi/pages/info.dart';
 import 'package:praktik_mochammad_athar_rizaldi/pages/show_data.dart';
 
 import 'pages/home.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(),
         '/form_entry': (context) => EntryData(),
-        '/show_data': (context) => ShowData()
+        '/show_data': (context) => ShowData(),
+        '/info': (context) => InfoPemilu(),
       },
     );
   }

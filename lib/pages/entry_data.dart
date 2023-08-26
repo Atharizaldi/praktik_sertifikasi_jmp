@@ -72,6 +72,7 @@ class _EntryDataState extends State<EntryData> {
   File? _imageFile;
   Future<File>? imgFileUpload;
   String? imageString;
+  final _form = GlobalKey<FormState>(); //
 
   Future<void> _takePicture() async {
     try {
@@ -134,192 +135,224 @@ class _EntryDataState extends State<EntryData> {
         centerTitle: true,
         backgroundColor: Colors.orange,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(30),
-        children: [
-          TextFieldForm(
-            controller: nikController,
-            label: "NIK",
-            maxLength: 16,
-            keyboardType: TextInputType.number,
-          ),
-          TextFieldForm(
-            controller: nameController,
-            label: "Nama",
-            maxLength: 50,
-            keyboardType: TextInputType.name,
-          ),
-          TextFieldForm(
-            controller: noController,
-            label: "No. HP",
-            maxLength: 20,
-            keyboardType: TextInputType.number,
-          ),
-          Text(
-            "Jenis Kelamin",
-            style: TextStyle(color: Colors.blueGrey),
-          ),
-          RadioListTile(
-            title: Text("Laki - laki"),
-            value: "laki - laki",
-            groupValue: gender,
-            activeColor: Colors.orange,
-            onChanged: (value) {
-              setState(() {
-                gender = value.toString();
-              });
-            },
-          ),
-          RadioListTile(
-            title: Text("Perempuan"),
-            value: "perempuan",
-            groupValue: gender,
-            activeColor: Colors.orange,
-            onChanged: (value) {
-              setState(() {
-                gender = value.toString();
-              });
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: TextField(
-              controller: dateinput, //editing controller of this TextField
-              decoration: InputDecoration(
-                  //icon of text field
-                  labelText: "Enter Date" //label text of field
-                  ),
-              readOnly:
-                  true, //set it true, so that user will not able to edit text
-              onTap: () async {
-                DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(
-                        2000), //DateTime.now() - not to allow to choose before today.
-                    lastDate: DateTime(2101));
-
-                if (pickedDate != null) {
-                  print(
-                      pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                  String formattedDate =
-                      DateFormat('yyyy-MM-dd').format(pickedDate);
-                  print(
-                      formattedDate); //formatted date output using intl package =>  2021-03-16
-                  //you can implement different kind of Date Format here according to your requirement
-
-                  setState(() {
-                    dateinput.text =
-                        formattedDate; //set output date to TextField value.
-                  });
-                } else {
-                  print("Date is not selected");
+      body: Form(
+        key: _form,
+        child: ListView(
+          padding: const EdgeInsets.all(30),
+          children: [
+            TextFormField(
+              controller: nikController,
+              decoration: InputDecoration(labelText: "NIK"),
+              maxLength: 16,
+              keyboardType: TextInputType.number,
+              validator: (text) {
+                if (text == null || text.isEmpty) {
+                  return 'Email must be filled out';
                 }
+                return null;
               },
             ),
-          ),
-          Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 80),
-                child: TextFormField(
-                  controller: koorController,
-                  decoration: const InputDecoration(
-                    labelText: 'Koordinat',
-                    labelStyle: TextStyle(
-                      color: Colors.blueGrey,
+            TextFormField(
+              controller: nameController,
+              decoration: InputDecoration(labelText: "Nama"),
+              maxLength: 50,
+              keyboardType: TextInputType.name,
+              validator: (text) {
+                if (text == null || text.isEmpty) {
+                  return 'Email must be filled out';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: noController,
+              decoration: InputDecoration(labelText: "No. Hp"),
+              maxLength: 20,
+              keyboardType: TextInputType.number,
+              validator: (text) {
+                if (text == null || text.isEmpty) {
+                  return 'Email must be filled out';
+                }
+                return null;
+              },
+            ),
+            Text(
+              "Jenis Kelamin",
+              style: TextStyle(color: Colors.blueGrey),
+            ),
+            RadioListTile(
+              title: Text("Laki - laki"),
+              value: "laki - laki",
+              groupValue: gender,
+              activeColor: Colors.orange,
+              onChanged: (value) {
+                setState(() {
+                  gender = value.toString();
+                });
+              },
+            ),
+            RadioListTile(
+              title: Text("Perempuan"),
+              value: "perempuan",
+              groupValue: gender,
+              activeColor: Colors.orange,
+              onChanged: (value) {
+                setState(() {
+                  gender = value.toString();
+                });
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: TextField(
+                controller: dateinput, //editing controller of this TextField
+                decoration: InputDecoration(
+                    //icon of text field
+                    labelText: "Enter Date" //label text of field
                     ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
+                readOnly:
+                    true, //set it true, so that user will not able to edit text
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(
+                          2000), //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2101));
+
+                  if (pickedDate != null) {
+                    print(
+                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    print(
+                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                    //you can implement different kind of Date Format here according to your requirement
+
+                    setState(() {
+                      dateinput.text =
+                          formattedDate; //set output date to TextField value.
+                    });
+                  } else {
+                    print("Date is not selected");
+                  }
+                },
+              ),
+            ),
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 80),
+                  child: TextFormField(
+                    controller: koorController,
+                    decoration: const InputDecoration(
+                      labelText: 'Koordinat',
+                      labelStyle: TextStyle(
                         color: Colors.blueGrey,
                       ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blueGrey,
+                        ),
+                      ),
                     ),
-                  ),
-                  onChanged: (value) {},
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                    ),
-                    onPressed: () async {
-                      await _getCurrentPosition();
-                      koorController.text =
-                          '${_currentPosition?.latitude} ${_currentPosition?.longitude}'
-                              .toString();
-                    },
-                    child: const Icon(Icons.gps_fixed),
+                    onChanged: (value) {},
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              Container(
-                height: 220,
-                width: 220,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.grey)),
-                child: _imageFile != null
-                    ? Image.file(
-                        _imageFile as File,
-                        fit: BoxFit.cover,
-                      )
-                    : Center(child: Text("Belum ada gambar")),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: _takePicture,
-                    child: Icon(Icons.camera),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                      ),
+                      onPressed: () async {
+                        await _getCurrentPosition();
+                        koorController.text =
+                            '${_currentPosition?.latitude} ${_currentPosition?.longitude}'
+                                .toString();
+                      },
+
+                      //  () async {
+                      //   await _getCurrentPosition();
+                      //   koorController.text =
+                      //       '${_currentPosition?.latitude} ${_currentPosition?.longitude}'
+                      //           .toString();
+                      // },
+                      child: const Icon(Icons.gps_fixed),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: _galleryPicture,
-                    child: Icon(Icons.photo_outlined),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange,
+                ),
+              ],
             ),
-            onPressed: () async {
-              await databaseLocal.insert({
-                "nik": nikController.text,
-                "nama": nameController.text,
-                "noHp": noController.text,
-                "jk": gender,
-                "tglData": dateinput.text.toString(),
-                "koordinat": koorController.text,
-                "photoName": imageString,
-              });
-              Navigator.pushNamed(context, '/');
-            },
-            child: const Text("Submit"),
-          ),
-        ],
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Container(
+                  height: 220,
+                  width: 220,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.grey)),
+                  child: _imageFile != null
+                      ? Image.file(
+                          _imageFile as File,
+                          fit: BoxFit.cover,
+                        )
+                      : Center(child: Text("Belum ada gambar")),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: _takePicture,
+                      child: Icon(Icons.camera),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: _galleryPicture,
+                      child: Icon(Icons.photo_outlined),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+              ),
+              onPressed: () {
+                if (_form.currentState!.validate()) {
+                  () async {
+                    await databaseLocal.insert({
+                      "nik": nikController.text,
+                      "nama": nameController.text,
+                      "noHp": noController.text,
+                      "jk": gender,
+                      "tglData": dateinput.text.toString(),
+                      "koordinat": koorController.text,
+                      "photoName": imageString,
+                    });
+                    Navigator.pushNamed(context, '/');
+                  };
+                }
+              },
+              child: const Text("Submit"),
+            ),
+          ],
+        ),
       ),
     );
   }
