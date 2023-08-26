@@ -5,7 +5,6 @@ import 'package:praktik_mochammad_athar_rizaldi/db/db_local.dart';
 import 'package:praktik_mochammad_athar_rizaldi/utility.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import '../widgets/form.dart';
 
 class EntryData extends StatefulWidget {
   const EntryData({super.key});
@@ -333,20 +332,18 @@ class _EntryDataState extends State<EntryData> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange,
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_form.currentState!.validate()) {
-                  () async {
-                    await databaseLocal.insert({
-                      "nik": nikController.text,
-                      "nama": nameController.text,
-                      "noHp": noController.text,
-                      "jk": gender,
-                      "tglData": dateinput.text.toString(),
-                      "koordinat": koorController.text,
-                      "photoName": imageString,
-                    });
-                    Navigator.pushNamed(context, '/');
-                  };
+                  await databaseLocal.insert({
+                    "nik": nikController.text,
+                    "nama": nameController.text,
+                    "noHp": noController.text,
+                    "jk": gender,
+                    "tglData": dateinput.text.toString(),
+                    "koordinat": koorController.text,
+                    "photoName": imageString,
+                  });
+                  Navigator.pushNamed(context, '/');
                 }
               },
               child: const Text("Submit"),
